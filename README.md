@@ -32,9 +32,12 @@
 <br>
 
  ## ⚙️ 개발 환경
-- **Operating System**: Windows, MacOS
-- **IDE** : 
-- **Programming Language**: 
+- **Operating System**: Windows, macOS
+- **IDE** : Visual Studio Code
+- **Framework** : React Native
+- **Server/Database** : FireBase
+- **Package Manager**: npm, npx
+- **Runtime Environment**: nodejs
 <br>
 
 ## 💝 주요 기능
