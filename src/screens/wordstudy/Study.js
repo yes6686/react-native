@@ -3,6 +3,8 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function WordStudyScreen({ navigation }) {
+  //더미 데이터
+  //나중에 백 구현하고 다시 구현하기
   const data = [
     { id: '1', title: '초등 영단어', progress: 12, total: 200 },
     { id: '2', title: '수능 영단어', progress: 37, total: 200 },
@@ -13,6 +15,7 @@ export default function WordStudyScreen({ navigation }) {
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
+        //터치시 이동
         navigation.navigate('RealStudyScreen', {
           title: item.title,
           progress: item.progress,
