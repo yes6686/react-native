@@ -1,4 +1,4 @@
-![Group 123 (1)](https://github.com/user-attachments/assets/bf075772-2982-4477-b3c5-52444ec3eabf)
+![Run the Word](https://capsule-render.vercel.app/api?type=soft&color=auto&text=Run%20the%20Word&fontSize=35&animation=twinkling)
 <br>
 
 ## 🚩 프로젝트 소개
