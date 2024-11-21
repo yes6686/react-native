@@ -7,7 +7,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
 import Test from '../screens/Test';
 import WrongNote from '../screens/WrongNote';
-import Study from '../components/Study'
+import Study from '../screens/wordstudy/Study'
+import RealStudyScreen from '../screens/wordstudy/RealStudyScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -17,7 +18,8 @@ function HomeStack() {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="TestScreen" component={Test} />
       <Stack.Screen name="WrongNoteScreen" component={WrongNote} />
-      <Stack.Screen name="StudyScreen" component={Study} />
+      <Stack.Screen name="Study" component={Study} />
+      <Stack.Screen name="RealStudyScreen" component={RealStudyScreen} />
     </Stack.Navigator>
   );
 }

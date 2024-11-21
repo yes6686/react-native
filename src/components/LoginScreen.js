@@ -7,33 +7,27 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { auth } from "../firebaseConfig"; // Firebase 설정 파일
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig"; // Firebase 설정 파일
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-export default function SignUpScreen({ navigation }) {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSignUp = async () => {
-    if (password !== confirmPassword) {
-      setErrorMessage("비밀번호가 일치하지 않습니다.");
-      return;
-    }
+  const handleLogin = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      Alert.alert("회원가입 성공", "계정이 생성되었습니다.");
-      navigation.navigate("Login"); // 회원가입 후 로그인 페이지로 이동
+      await signInWithEmailAndPassword(auth, email, password);
+      Alert.alert("로그인 성공", "환영합니다!");
     } catch (error) {
-      setErrorMessage("회원가입에 실패했습니다. 다시 시도해주세요.");
+      setErrorMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Run the Word</Text>
-      <Text style={styles.subtitle}>회원가입</Text>
+      <Text style={styles.subtitle}>로그인</Text>
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : null}
@@ -57,22 +51,12 @@ export default function SignUpScreen({ navigation }) {
           setErrorMessage(""); // 입력 시 에러 메시지 초기화
         }}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="비밀번호 확인"
-        secureTextEntry
-        value={confirmPassword}
-        onChangeText={(text) => {
-          setConfirmPassword(text);
-          setErrorMessage(""); // 입력 시 에러 메시지 초기화
-        }}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>회원가입</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>로그인</Text>
       </TouchableOpacity>
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.footerText}>로그인 페이지로 돌아가기</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+          <Text style={styles.footerText}>회원가입</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -55,7 +55,7 @@ export default function HomeScreen() {
             >
               <Text style={styles.cardTitle}>단어 시험</Text>
               <Image
-                source={require("../assets/exam.png")}
+                source={require("../../assets/exam.png")}
                 style={styles.cardImage}
               />
             </TouchableOpacity>
@@ -70,7 +70,7 @@ export default function HomeScreen() {
             >
               <Text style={styles.cardTitleTopCenter}>오답 노트</Text>
               <Image
-                source={require("../assets/wrong.png")}
+                source={require("../../assets/wrong.png")}
                 style={styles.cardImageLeftBottom}
               />
             </TouchableOpacity>
@@ -87,7 +87,7 @@ export default function HomeScreen() {
             >
               <Text style={styles.cardTitle2}>단어 학습</Text>
               <Image
-                source={require("../assets/book.png")}
+                source={require("../../assets/book.png")}
                 style={styles.cardImageRightBottom}
               />
             </TouchableOpacity>
@@ -99,17 +99,17 @@ export default function HomeScreen() {
         style={[styles.pullUpBar, { transform: [{ translateY }] }]}
       >
         <Image
-          source={require("../assets/line.png")}
+          source={require("../../assets/line.png")}
           style={styles.dragHandleImage}
         />
         <Image
-          source={require("../assets/line.png")}
+          source={require("../../assets/line.png")}
           style={styles.dragHandleImage}
         />
         <Text style={styles.goalText}>오늘 목표까지 38개 남았어요!</Text>
         <View style={styles.progressContainer}>
           <Image
-            source={require("../assets/success.png")}
+            source={require("../../assets/success.png")}
             style={styles.progressIcon}
           />
           <Text style={styles.progressText}>20%</Text>

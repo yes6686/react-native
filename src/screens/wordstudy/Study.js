@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import RealStudyScreen from './RealStudyScreen';
 export default function WordStudyScreen({ navigation }) {
   //더미 데이터
   //나중에 백 구현하고 다시 구현하기

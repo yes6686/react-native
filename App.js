@@ -4,16 +4,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Icon from "react-native-vector-icons/Ionicons";
 import { auth } from "./firebaseConfig"; // Firebase auth 가져오기
-import LoginScreen from "./components/LoginScreen";
-import HomeScreen from "./components/HomeScreen";
-import MyPageScreen from "./components/MyPageScreen";
-import SettingsScreen from "./components/SettingsScreen";
-import WordTestScreen from "./components/WordTestScreen";
-import WrongNoteScreen from "./components/WrongNoteScreen";
-import WordStudyScreen from "./components/WordStudyScreen";
-import LoadingScreen from "./components/LoadingScreen";
-import SignUpScreen from "./components/SignUpScreen"; // SignUpScreen 추가
-
+import LoginScreen from "./src/components/LoginScreen";
+import HomeScreen from "./src/components/HomeScreen";
+import MyPageScreen from "./src/components/MyPageScreen";
+import SettingsScreen from "./src/components/SettingsScreen";
+import WordTestScreen from "./src/components/WordTestScreen";
+import WrongNoteScreen from "./src/components/WrongNoteScreen";
+import LoadingScreen from "./src/components/LoadingScreen";
+import SignUpScreen from "./src/components/SignUpScreen"; // SignUpScreen 추가
+import Study from "./src/screens/wordstudy/Study"
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -26,7 +25,7 @@ const HomeStack = () => (
     />
     <Stack.Screen name="WordTestScreen" component={WordTestScreen} />
     <Stack.Screen name="WrongNoteScreen" component={WrongNoteScreen} />
-    <Stack.Screen name="WordStudyScreen" component={WordStudyScreen} />
+    <Stack.Screen name="WordStudyScreen" component={Study} />
   </Stack.Navigator>
 );
 

@@ -23,14 +23,14 @@ export default function MyPageScreen() {
       <View style={styles.userInfoContainer}>
         <View style={styles.userInfo}>
           <Image
-            source={require("../assets/bronze.png")}
+            source={require("../../assets/bronze.png")}
             style={styles.rankIcon}
           />
           <Text style={styles.userName}>danbi 님</Text>
         </View>
         <TouchableOpacity style={styles.infoButton} onPress={toggleRankingInfo}>
           <Image
-            source={require("../assets/info.png")}
+            source={require("../../assets/info.png")}
             style={styles.infoIcon}
           />
           <Text style={styles.infoText}>등급 안내</Text>
@@ -84,27 +84,27 @@ export default function MyPageScreen() {
                 {
                   rank: "Bronze",
                   miles: "1,000 M",
-                  icon: require("../assets/bronze.png"),
+                  icon: require("../../assets/bronze.png"),
                 },
                 {
                   rank: "Silver",
                   miles: "5,000 M",
-                  icon: require("../assets/sliver.png"),
+                  icon: require("../../assets/sliver.png"),
                 },
                 {
                   rank: "Gold",
                   miles: "20,000 M",
-                  icon: require("../assets/gold.png"),
+                  icon: require("../../assets/gold.png"),
                 },
                 {
                   rank: "Platinum",
                   miles: "50,000 M",
-                  icon: require("../assets/platinum.png"),
+                  icon: require("../../assets/platinum.png"),
                 },
                 {
                   rank: "Diamond",
                   miles: "50,000 M 이상",
-                  icon: require("../assets/diamond.png"),
+                  icon: require("../../assets/diamond.png"),
                 },
               ].map((item, index) => (
                 <View key={index} style={styles.rankInfo}>
