@@ -1,4 +1,4 @@
-![Run the Word](https://capsule-render.vercel.app/api?type=soft&color=gradient&text=Run%20the%20Word&fontSize=50&animation=blink&gradientColor1=purple&gradientColor2=#00FFFF&width=1000)
+![Run the Word](https://capsule-render.vercel.app/api?type=soft&color=gradient&text=Run%20the%20Word&fontSize=50&animation=blink&gradientColor1=purple&gradientColor2=mint&width=1000)
 
 <br>
 
