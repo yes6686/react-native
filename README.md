@@ -1,4 +1,4 @@
-![Run the Word](https://capsule-render.vercel.app/api?type=soft&color=gradient&text=Run%20the%20Word&fontSize=70&animation=blink&gradientColor1=purple&gradientColor2=pink&width=1200)
+![Run the Word](https://capsule-render.vercel.app/api?type=soft&color=gradient&text=Run%20the%20Word&fontSize=50&animation=blink&gradientColor1=pink&gradientColor2=mint&width=1000)
 <br>
 
 ## 🚩 프로젝트 소개
