@@ -12,7 +12,9 @@ import WordTestScreen from "./src/components/WordTestScreen";
 import WrongNoteScreen from "./src/components/WrongNoteScreen";
 import LoadingScreen from "./src/components/LoadingScreen";
 import SignUpScreen from "./src/components/SignUpScreen"; // SignUpScreen 추가
-import Study from "./src/screens/wordstudy/Study"
+import Study from "./src/screens/wordstudy/Study";
+import RealStudyScreen from "./src/screens/wordstudy/RealStudyScreen";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +28,7 @@ const HomeStack = () => (
     <Stack.Screen name="WordTestScreen" component={WordTestScreen} />
     <Stack.Screen name="WrongNoteScreen" component={WrongNoteScreen} />
     <Stack.Screen name="WordStudyScreen" component={Study} />
+    <Stack.Screen name="RealStudyScreen" component={RealStudyScreen} />
   </Stack.Navigator>
 );
 
