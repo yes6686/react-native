@@ -12,7 +12,7 @@ import { collection, getDocs } from "firebase/firestore"; // Firestore 메서드
 import { db } from "../../../firebaseConfig"; // Firestore 인스턴스 가져오기
 
 export default function RealStudyScreen({ route, navigation }) {
-  const { title } = route.params;
+  const { title, collection: collectionName } = route.params;
 
   const [data, setData] = useState([]); // Firestore에서 가져온 단어 데이터
   const [loading, setLoading] = useState(true); // 로딩 상태
@@ -21,7 +21,7 @@ export default function RealStudyScreen({ route, navigation }) {
   // Firestore에서 단어 데이터를 가져오는 함수
   const fetchWordsFromFirestore = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, "words")); // 'words' 컬렉션에서 데이터 가져오기
+      const querySnapshot = await getDocs(collection(db, collectionName)); // 전달받은 컬렉션에서 데이터 가져오기
       const words = querySnapshot.docs.map((doc) => ({
         id: doc.id, // Firestore 문서 ID
         ...doc.data(), // Firestore 문서 데이터

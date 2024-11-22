@@ -1,4 +1,3 @@
-// src/components/StudyLevelScreen.js
 import React from "react";
 import {
   View,
@@ -9,11 +8,28 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const goalCount = 50;
 const categories = [
-  { id: "1", title: "초등 영단어", progress: 12, total: 200 },
-  { id: "2", title: "수능 영단어", progress: 37, total: 200 },
-  { id: "3", title: "토익 영단어", progress: 0, total: 200 },
+  {
+    id: "1",
+    title: "초등 영단어",
+    collection: "elementary_words",
+    progress: 12,
+    total: 50,
+  },
+  {
+    id: "2",
+    title: "수능 영단어",
+    collection: "sat_words",
+    progress: 37,
+    total: 50,
+  },
+  {
+    id: "3",
+    title: "토익 영단어",
+    collection: "toeic_words",
+    progress: 0,
+    total: 50,
+  },
 ];
 
 const StudyLevelScreen = ({ navigation }) => {
@@ -28,7 +44,8 @@ const StudyLevelScreen = ({ navigation }) => {
               style={styles.card}
               onPress={() =>
                 navigation.navigate("RealStudyScreen", {
-                  category: item.title,
+                  title: item.title,
+                  collection: item.collection, // Firestore 컬렉션 이름 전달
                 })
               }
             >
