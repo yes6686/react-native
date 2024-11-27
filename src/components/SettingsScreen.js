@@ -1,132 +1,206 @@
-// src/components/SettingsScreen.js
-import React,{useState} from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
+  Switch,
   Modal,
-  ScrollView,
+  Alert,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { LinearGradient } from "expo-linear-gradient";
+import { useTheme } from "../context/ThemeProvider";
 
+export default function SettingsScreen() {
+  const { theme, toggleTheme } = useTheme();
+  const [isNotificationEnabled, setIsNotificationEnabled] = useState(true); // 알림 상태
+  const [isThemeModalVisible, setIsThemeModalVisible] = useState(false); // 테마 변경 모달 상태
+  const [currentTheme, setCurrentTheme] = useState("light"); // 기본 테마로 설정
 
-export default function AlarmSettingsScreen() {
-  const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(false);
+  const toggleNotification = () => setIsNotificationEnabled((prev) => !prev);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate); // 선택한 날짜 업데이트
-    if (Platform.OS !== "ios") {
-      setShowPicker(false); // iOS가 아닌 경우 Picker를 닫음
-    }
+  const handleResetData = () => {
+    Alert.alert(
+      "데이터 초기화",
+      "앱 데이터를 초기화하시겠습니까? 복구할 수 없습니다.",
+      [
+        { text: "취소", style: "cancel" },
+        { text: "확인", onPress: () => console.log("데이터 초기화 완료") },
+      ]
+    );
   };
 
-  const togglePicker = () => {
-    setShowPicker(!showPicker); // Picker 표시/숨김 전환
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      "계정 삭제",
+      "계정을 삭제하시겠습니까? 이 작업은 복구할 수 없습니다.",
+      [
+        { text: "취소", style: "cancel" },
+        { text: "확인", onPress: () => console.log("계정 삭제 완료") },
+      ]
+    );
+  };
+
+  const handleLogout = () => {
+    Alert.alert("로그아웃", "로그아웃하시겠습니까?", [
+      { text: "취소", style: "cancel" },
+      { text: "확인", onPress: () => console.log("로그아웃 완료") },
+    ]);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.greetingText}>danbi 님, 안녕하세요!</Text>
+    <LinearGradient colors={["#6A0DAD", "#C299F6"]} style={styles.container}>
+      <Text style={styles.headerText}>설정</Text>
 
-      {/* 알람 시간 설정 버튼 */}
-      <TouchableOpacity onPress={togglePicker} style={styles.timeButton}>
-        <Text style={styles.timeButtonText}>
-          알람 시간:{" "}
-          {date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+      {/* 다크모드 */}
+      <View style={styles.settingRow}>
+        <Text style={[styles.settingLabel, { color: theme.text }]}>
+          다크모드
         </Text>
-      </TouchableOpacity>
-
-      {/* 알람 수신 스위치 */}
-      <View style={styles.switchContainer}>
-        <Text style={styles.switchText}>알람 수신</Text>
-        <TouchableOpacity onPress={() => {}} style={styles.switchButton}>
-          <Text style={styles.switchButtonText}>Toggle Alarm</Text>
-        </TouchableOpacity>
+        <Switch
+          value={theme.mode === "dark"}
+          onValueChange={toggleTheme}
+          thumbColor={theme.mode === "dark" ? "#FFF" : theme.primary}
+          trackColor={{ false: "#DDD", true: theme.primary }}
+        />
       </View>
 
-      {/* DateTimePicker 모달 */}
-      {showPicker && (
-        <Modal
-          transparent={true}
-          animationType="slide"
-          visible={showPicker}
-          onRequestClose={togglePicker}
-        >
-          <View style={styles.modalBackground}>
-            <View style={styles.modalContent}>
-              <DateTimePicker
-                value={date}
-                mode="time"
-                display="spinner"
-                onChange={onChange}
-                style={{ width: "100%" }}
-              />
+      {/* 알림 */}
+      <View style={styles.settingRow}>
+        <Text style={[styles.settingLabel, { color: theme.text }]}>
+          알림 받기
+        </Text>
+        <Switch
+          value={isNotificationEnabled}
+          onValueChange={toggleNotification}
+          thumbColor={isNotificationEnabled ? "#FFF" : theme.primary}
+          trackColor={{ false: "#DDD", true: theme.primary }}
+        />
+      </View>
+
+      {/* 테마 변경 */}
+      <TouchableOpacity
+        style={styles.settingRow}
+        onPress={() => setIsThemeModalVisible(true)}
+      >
+        <Text style={[styles.settingLabel, { color: theme.text }]}>
+          테마 변경
+        </Text>
+        <Text style={[styles.settingValue, { color: theme.text }]}>
+          {currentTheme}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.settingRow}
+        onPress={() => console.log("개인정보처리방침")}
+      >
+        <Text style={styles.settingLabel}>개인정보처리방침</Text>
+      </TouchableOpacity>
+
+      {/* 앱 버전 */}
+      <View style={styles.settingRow}>
+        <Text style={[styles.settingLabel, { textAlign: "center" }]}>
+          앱 버전: 1.0.0
+        </Text>
+      </View>
+
+      <TouchableOpacity
+        style={[styles.settingRow, styles.resetButton]}
+        onPress={handleResetData}
+      >
+        <Text style={styles.settingLabel}>데이터 초기화</Text>
+      </TouchableOpacity>
+
+      {/* 계정 삭제 */}
+      <TouchableOpacity
+        style={[styles.settingRow, styles.deleteAccount]}
+        onPress={handleDeleteAccount}
+      >
+        <Text style={styles.settingLabel}>계정 삭제</Text>
+      </TouchableOpacity>
+
+      {/* 로그아웃 */}
+      <TouchableOpacity
+        style={[styles.settingRow, styles.logoutButton]}
+        onPress={handleLogout}
+      >
+        <Text style={styles.settingLabel}>로그아웃</Text>
+      </TouchableOpacity>
+
+      {/* 테마 모달 */}
+      <Modal
+        visible={isThemeModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setIsThemeModalVisible(false)}
+      >
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>테마 변경</Text>
+            {["light", "dark"].map((themeName) => (
               <TouchableOpacity
-                onPress={togglePicker}
-                style={styles.confirmButton}
+                key={themeName}
+                style={styles.themeOption}
+                onPress={() => {
+                  setCurrentTheme(themeName);
+                  setIsThemeModalVisible(false);
+                }}
               >
-                <Text style={styles.confirmButtonText}>확인</Text>
+                <Text style={styles.themeText}>{themeName.toUpperCase()}</Text>
               </TouchableOpacity>
-            </View>
+            ))}
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setIsThemeModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>닫기</Text>
+            </TouchableOpacity>
           </View>
-        </Modal>
-      )}
-    </View>
+        </View>
+      </Modal>
+
+      {/* 개발자 정보 */}
+      <Text style={styles.developerInfo}>개발자 정보: RunTheWord 팀</Text>
+    </LinearGradient>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#6A0DAD",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 40,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    marginTop: 50,
   },
-  greetingText: {
-    fontSize: 18,
+  headerText: {
+    fontSize: 24,
+    fontWeight: "bold",
     color: "#FFF",
-    marginBottom: 20,
+    marginBottom: 30,
+    textAlign: "center",
   },
-  timeButton: {
+  settingRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: "#FFF",
     padding: 15,
     borderRadius: 10,
-    marginBottom: 20,
-    width: "80%",
-    alignItems: "center",
+    marginBottom: 15,
   },
-  timeButtonText: {
+  settingLabel: {
     fontSize: 16,
-    color: "#6A0DAD",
-    fontWeight: "bold",
   },
-  switchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "80%",
-    backgroundColor: "#FFF",
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 20,
+  settingValue: {
+    fontSize: 14,
   },
-  switchText: {
-    fontSize: 16,
-    color: "#6A0DAD",
+  deleteAccount: {
+    backgroundColor: "#FF6B6B",
   },
-  switchButton: {
-    backgroundColor: "#6A0DAD",
-    padding: 8,
-    borderRadius: 5,
+  logoutButton: {
+    backgroundColor: "#FFB74D",
   },
-  switchButtonText: {
-    color: "#FFF",
-    fontWeight: "bold",
+  resetButton: {
+    backgroundColor: "#4A90E2", // 파란 계열로 변경
   },
   modalBackground: {
     flex: 1,
@@ -141,15 +215,36 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
   },
-  confirmButton: {
-    marginTop: 10,
-    backgroundColor: "#6A0DAD",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
   },
-  confirmButtonText: {
+  themeOption: {
+    padding: 10,
+    width: "100%",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#EEE",
+  },
+  themeText: {
+    fontSize: 16,
+  },
+  closeButton: {
+    marginTop: 15,
+    backgroundColor: "#6A0DAD",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  closeButtonText: {
     color: "#FFF",
     fontWeight: "bold",
+  },
+  developerInfo: {
+    textAlign: "center",
+    marginTop: 50,
+    fontSize: 20,
+    color: "#666",
   },
 });

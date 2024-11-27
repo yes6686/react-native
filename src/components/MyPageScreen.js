@@ -16,6 +16,17 @@ export default function MyPageScreen() {
   const toggleRankingInfo = () => {
     setRankingInfoVisible(!isRankingInfoVisible);
   };
+  const dummyChartData = [
+    { name: "yes490411", days: 1800 },
+    { name: "danbi", days: 1750 },
+    { name: "junny71387", days: 1600 },
+    { name: "miniG", days: 1500 },
+    { name: "AyoungKim", days: 1400 },
+    { name: "JohnDoe", days: 1300 },
+    { name: "JaneDoe", days: 1200 },
+    { name: "Tommy", days: 1100 },
+    { name: "Lucy", days: 1000 },
+  ];
 
   return (
     <View style={styles.container}>
@@ -50,20 +61,26 @@ export default function MyPageScreen() {
       <View style={styles.chartContainer}>
         <Text style={styles.chartTitle}>실시간 차트</Text>
         <ScrollView style={styles.chartList}>
-          {["yes490411", "danbi", "junny71387", "miniG", "AyoungKim"].map(
-            (name, index) => (
-              <View key={index} style={styles.chartItem}>
-                <Text style={styles.chartRank}>{index + 1}</Text>
-                <Text style={styles.chartName}>{name}</Text>
-                <Text style={styles.chartDays}>
-                  {Math.floor(Math.random() * 2000)} 일
+          {dummyChartData.map((item, index) => (
+            <View key={index} style={styles.chartItem}>
+              <LinearGradient
+                colors={
+                  index === 0 ? ["#FFD700", "#FFA500"] : ["#F5F5F5", "#E0E0E0"]
+                }
+                style={styles.chartCard}
+              >
+                <Text style={styles.chartRank}>
+                  {index === 0 ? "👑 1" : index + 1}
                 </Text>
-              </View>
-            )
-          )}
+                <View style={styles.chartDetails}>
+                  <Text style={styles.chartName}>{item.name}</Text>
+                  <Text style={styles.chartDays}>{item.days} 일</Text>
+                </View>
+              </LinearGradient>
+            </View>
+          ))}
         </ScrollView>
       </View>
-
       {/* 등급 안내 모달 */}
       <Modal
         visible={isRankingInfoVisible}
@@ -127,7 +144,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6A0DAD",
-    paddingTop: 40,
+    paddingTop: 70,
     alignItems: "center",
   },
   userInfoContainer: {
@@ -183,34 +200,56 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     width: "90%",
+    height: "70%",
     backgroundColor: "#FFFFFF",
-    borderRadius: 10,
+    borderRadius: 15,
     marginTop: 20,
     padding: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 6,
   },
   chartTitle: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 15,
+    textAlign: "center",
+    color: "#6A0DAD",
   },
   chartList: {
-    maxHeight: 200,
+    maxHeight: 500,
   },
   chartItem: {
+    marginBottom: 12,
+  },
+  chartCard: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 5,
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 10,
+    overflow: "hidden",
   },
   chartRank: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
+    marginRight: 15,
+    color: "#6A0DAD",
+  },
+  chartDetails: {
+    flex: 1,
+    justifyContent: "center",
   },
   chartName: {
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
   },
   chartDays: {
     fontSize: 14,
     color: "#666",
+    marginTop: 5,
   },
   modalBackground: {
     flex: 1,
