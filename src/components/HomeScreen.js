@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#6A0DAD",
     paddingTop: 40,
+    marginTop: 50,
   },
   greeting: {
     fontSize: 18,
