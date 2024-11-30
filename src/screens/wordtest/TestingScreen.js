@@ -24,29 +24,6 @@ const TestingScreen = ({ route }) => {
   const [isCorrect, setIsCorrect] = useState(null); // 정답 여부
 
   const wordsData = [...words];
-  // 샘플 단어 데이터
-  // const wordsData = [
-  //   { english: "engross", korean: "몰두하게 만들다" },
-  //   { word: "enhancement", meaning: "향상" },
-  //   { word: "enroll", meaning: "등록하다" },
-  //   { word: "provoke", meaning: "유발하다" },
-  //   { word: "prey", meaning: "먹이" },
-  //   { word: "paradoxically", meaning: "역설적으로" },
-  //   { word: "gem", meaning: "보석" },
-  //   { word: "extinction", meaning: "멸종" },
-  //   { word: "expire", meaning: "만기가 되다" },
-  //   { word: "protrayal", meaning: "묘사" },
-  //   { word: "precaution", meaning: "예방" },
-  //   { word: "preparation", meaning: "준비" },
-  //   { word: "remake", meaning: "새로 만들다" },
-  //   { word: "convenient", meaning: "편리한" },
-  //   { word: "converse", meaning: "반대의" },
-  //   { word: "currnetly", meaning: "현재는" },
-  //   { word: "cyclical", meaning: "순환하는" },
-  //   { word: "decode", meaning: "해독하다" },
-  //   { word: "dominion", meaning: "영토" },
-  //   { word: "dusk", meaning: "황혼" },
-  // ];
 
   // 첫 로드 시 단어를 섞고 첫 문제를 설정
   useEffect(() => {
@@ -139,23 +116,6 @@ const TestingScreen = ({ route }) => {
       setTimeLeft(10); // 타이머 리셋
     }
   }, [currentIndex, shuffledWords]);
-
-  // const nextQuestion = () => {
-  //   if (currentIndex < shuffledWords.length - 1) {
-  //     const nextIndex = currentIndex + 1;
-  //     setCurrentIndex(nextIndex);
-  //     setCurrentWord(shuffledWords[nextIndex]); // 다음 문제 설정
-  //     generateRandomOptions(shuffledWords[nextIndex]); // 다음 문제 보기를 생성
-  //     setTimeLeft(10);
-  //   } else {
-  //     // 모든 문제를 풀었을 경우 결과 화면으로 이동
-  //     navigation.navigate("TestingResultScreen", {
-  //       finalScore: score,
-  //       total: shuffledWords.length,
-  //       incorrectWords,
-  //     });
-  //   }
-  // };
 
   return (
     <View style={styles.container}>
