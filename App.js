@@ -9,15 +9,14 @@ import SignUpScreen from "./src/components/SignUpScreen";
 import HomeScreen from "./src/components/HomeScreen";
 import MyPageScreen from "./src/components/MyPageScreen";
 import SettingsScreen from "./src/components/SettingsScreen";
-import WordTestScreen from "./src/components/WordTestScreen";
 import WrongNoteScreen from "./src/components/WrongNoteScreen";
-import LoadingScreen from "./src/components/LoadingScreen";
 import Study from "./src/screens/wordstudy/Study";
 import RealStudyScreen from "./src/screens/wordstudy/RealStudyScreen";
 import { ThemeProvider, useTheme } from "./src/context/ThemeProvider";
 import TestLevelScreen from "./src/screens/wordtest/TestLevelScreen";
 import TestingScreen from "./src/screens/wordtest/TestingScreen";
 import TestingResultScreen from "./src/screens/wordtest/TestingResultScreen";
+import WordTestScreen from "./src/screens/wordtest/WordTestScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

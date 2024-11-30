@@ -39,7 +39,7 @@ const WordTestScreen = () => {
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#5A20BB", "#7F9DFF"]}>
-        <Text style={styles.header}>121일 연속 학습 중 입니다!</Text>
+        <Text style={styles.header}>120일 연속 학습 중 입니다!</Text>
         <FlatList
           data={categories}
           renderItem={({ item }) => (
