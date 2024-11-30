@@ -8,25 +8,48 @@ import {
   FlatList,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
 
 const categories = [
-  { id: "1", title: "초등 영단어", progress: "12/200" },
-  { id: "2", title: "수능 영단어", progress: "37/200" },
-  { id: "3", title: "토익 영단어", progress: "2/200" },
+  {
+    id: "1",
+    title: "초등 영단어",
+    collection: "elementary_words",
+    progress: 12,
+    total: 50,
+  },
+  {
+    id: "2",
+    title: "수능 영단어",
+    collection: "sat_words",
+    progress: 37,
+    total: 50,
+  },
+  {
+    id: "3",
+    title: "토익 영단어",
+    collection: "toeic_words",
+    progress: 0,
+    total: 50,
+  },
 ];
 
-const WordTestScreen = ({ navigation }) => {
+const WordTestScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#5A20BB", "#7F9DFF"]}>
-        <Text style={styles.header}>121일 연속 학습 중 입니다!</Text>
+        <Text style={styles.header}>120일 연속 학습 중 입니다!</Text>
         <FlatList
           data={categories}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.card}
               onPress={() =>
-                navigation.navigate("TestLevelScreen", { category: item.title })
+                navigation.navigate("TestLevelScreen", {
+                  title: item.title,
+                  collection: item.collection, // Firestore 컬렉션 이름 전달
+                })
               }
             >
               <LinearGradient

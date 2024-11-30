@@ -8,8 +8,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const TestingScreen = () => {
+const TestingScreen = ({ route }) => {
   const navigation = useNavigation();
+  const { title, level, words } = route.params;
 
   // 상태 관리
   const [currentIndex, setCurrentIndex] = useState(0); // 현재 문제의 인덱스
@@ -22,29 +23,30 @@ const TestingScreen = () => {
   const [selectedOption, setSelectedOption] = useState(null); // 선택한 보기
   const [isCorrect, setIsCorrect] = useState(null); // 정답 여부
 
+  const wordsData = [...words];
   // 샘플 단어 데이터
-  const wordsData = [
-    { word: "engross", meaning: "몰두하게 만들다" },
-    { word: "enhancement", meaning: "향상" },
-    { word: "enroll", meaning: "등록하다" },
-    { word: "provoke", meaning: "유발하다" },
-    { word: "prey", meaning: "먹이" },
-    { word: "paradoxically", meaning: "역설적으로" },
-    { word: "gem", meaning: "보석" },
-    { word: "extinction", meaning: "멸종" },
-    { word: "expire", meaning: "만기가 되다" },
-    { word: "protrayal", meaning: "묘사" },
-    { word: "precaution", meaning: "예방" },
-    { word: "preparation", meaning: "준비" },
-    { word: "remake", meaning: "새로 만들다" },
-    { word: "convenient", meaning: "편리한" },
-    { word: "converse", meaning: "반대의" },
-    { word: "currnetly", meaning: "현재는" },
-    { word: "cyclical", meaning: "순환하는" },
-    { word: "decode", meaning: "해독하다" },
-    { word: "dominion", meaning: "영토" },
-    { word: "dusk", meaning: "황혼" },
-  ];
+  // const wordsData = [
+  //   { english: "engross", korean: "몰두하게 만들다" },
+  //   { word: "enhancement", meaning: "향상" },
+  //   { word: "enroll", meaning: "등록하다" },
+  //   { word: "provoke", meaning: "유발하다" },
+  //   { word: "prey", meaning: "먹이" },
+  //   { word: "paradoxically", meaning: "역설적으로" },
+  //   { word: "gem", meaning: "보석" },
+  //   { word: "extinction", meaning: "멸종" },
+  //   { word: "expire", meaning: "만기가 되다" },
+  //   { word: "protrayal", meaning: "묘사" },
+  //   { word: "precaution", meaning: "예방" },
+  //   { word: "preparation", meaning: "준비" },
+  //   { word: "remake", meaning: "새로 만들다" },
+  //   { word: "convenient", meaning: "편리한" },
+  //   { word: "converse", meaning: "반대의" },
+  //   { word: "currnetly", meaning: "현재는" },
+  //   { word: "cyclical", meaning: "순환하는" },
+  //   { word: "decode", meaning: "해독하다" },
+  //   { word: "dominion", meaning: "영토" },
+  //   { word: "dusk", meaning: "황혼" },
+  // ];
 
   // 첫 로드 시 단어를 섞고 첫 문제를 설정
   useEffect(() => {
@@ -69,10 +71,10 @@ const TestingScreen = () => {
 
   // 랜덤 보기 생성
   const generateRandomOptions = (word) => {
-    const options = [word.meaning]; 
+    const options = [word.korean];
     while (options.length < 4) {
       const randomMeaning =
-        wordsData[Math.floor(Math.random() * wordsData.length)].meaning; 
+        wordsData[Math.floor(Math.random() * wordsData.length)].korean;
       if (!options.includes(randomMeaning)) {
         options.push(randomMeaning); // 중복 방지 후 추가
       }
@@ -81,17 +83,18 @@ const TestingScreen = () => {
   };
 
   // 정답 선택 처리
+
   const handleAnswer = (selectedMeaning) => {
     setSelectedOption(selectedMeaning); // 선택한 보기 저장
-    const correct = selectedMeaning === currentWord.meaning; // 정답 여부 확인
+    const correct = selectedMeaning === currentWord.korean; // 정답 여부 확인
     setIsCorrect(correct);
 
     if (correct) {
-      setScore((prev) => prev + 1); 
+      setScore((prev) => prev + 1);
     } else {
       setIncorrectWords((prev) => [
         ...prev,
-        { word: currentWord.word, meaning: currentWord.meaning }, 
+        { english: currentWord.english, korean: currentWord.korean },
       ]);
     }
 
@@ -99,7 +102,7 @@ const TestingScreen = () => {
     setTimeout(() => {
       setSelectedOption(null);
       setIsCorrect(null);
-      nextQuestion();
+      setCurrentIndex((prevIndex) => prevIndex + 1); // 인덱스 업데이트
     }, 1000);
   };
 
@@ -107,42 +110,64 @@ const TestingScreen = () => {
   const handleTimeout = () => {
     setIncorrectWords((prev) => [
       ...prev,
-      { word: currentWord.word, meaning: currentWord.meaning },
+      { english: currentWord.english, korean: currentWord.korean },
     ]);
-    // 마지막 문제가 시간초과되면 왜 오답 리스트에 저장이 안되지?
     setTimeout(() => {
-      nextQuestion();
+      setCurrentIndex((prevIndex) => prevIndex + 1); // 시간 초과 시 다음 문제로 이동
     }, 1000);
   };
 
   // 다음 문제로 이동
-  const nextQuestion = () => {
-    if (currentIndex < shuffledWords.length - 1) {
-      const nextIndex = currentIndex + 1; 
-      setCurrentIndex(nextIndex);
-      setCurrentWord(shuffledWords[nextIndex]); // 다음 문제 설정
-      generateRandomOptions(shuffledWords[nextIndex]); // 다음 문제 보기를 생성
-      setTimeLeft(10); 
-    } else {
-      // 모든 문제를 풀었을 경우 결과 화면으로 이동
+  useEffect(() => {
+    if (shuffledWords.length === 0) {
+      return; // 단어 배열이 준비되지 않으면 아무 작업도 하지 않음
+    }
+
+    if (currentIndex >= shuffledWords.length) {
+      // 모든 문제를 다 풀었을 경우 결과 화면으로 이동
       navigation.navigate("TestingResultScreen", {
         finalScore: score,
         total: shuffledWords.length,
         incorrectWords,
+        title: title,
+        level: level,
       });
+    } else if (currentIndex < shuffledWords.length) {
+      // 다음 문제 설정
+      setCurrentWord(shuffledWords[currentIndex]);
+      generateRandomOptions(shuffledWords[currentIndex]);
+      setTimeLeft(10); // 타이머 리셋
     }
-  };
+  }, [currentIndex, shuffledWords]);
+
+  // const nextQuestion = () => {
+  //   if (currentIndex < shuffledWords.length - 1) {
+  //     const nextIndex = currentIndex + 1;
+  //     setCurrentIndex(nextIndex);
+  //     setCurrentWord(shuffledWords[nextIndex]); // 다음 문제 설정
+  //     generateRandomOptions(shuffledWords[nextIndex]); // 다음 문제 보기를 생성
+  //     setTimeLeft(10);
+  //   } else {
+  //     // 모든 문제를 풀었을 경우 결과 화면으로 이동
+  //     navigation.navigate("TestingResultScreen", {
+  //       finalScore: score,
+  //       total: shuffledWords.length,
+  //       incorrectWords,
+  //     });
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
       {/* 진행 상황 표시 */}
       <Text style={styles.progress}>
-        {currentIndex + 1}/{shuffledWords.length || wordsData.length}
+        {Math.min(currentIndex + 1, shuffledWords.length || wordsData.length)}/
+        {shuffledWords.length || wordsData.length}
       </Text>
 
       {/* 문제 표시 */}
       <View style={styles.quizBox}>
-        {currentWord && <Text style={styles.word}>{currentWord.word}</Text>}
+        {currentWord && <Text style={styles.word}>{currentWord.english}</Text>}
       </View>
 
       {/* 타이머 표시 */}
@@ -165,9 +190,9 @@ const TestingScreen = () => {
               styles.optionButton,
               selectedOption === item
                 ? isCorrect
-                  ? styles.correctOption 
-                  : styles.wrongOption 
-                : item === currentWord.meaning && selectedOption !== null
+                  ? styles.correctOption
+                  : styles.wrongOption
+                : item === currentWord.korean && selectedOption !== null
                 ? styles.correctOption // 시간초과 시 정답 표시
                 : null,
             ]}
@@ -186,7 +211,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#6A0DAD", // 보라색 배경
+    backgroundColor: "#6A0DAD",
   },
   progress: {
     fontSize: 20,

@@ -14,21 +14,21 @@ const categories = [
     title: "초등 영단어",
     collection: "elementary_words",
     progress: 12,
-    total: 50,
+    total: 200,
   },
   {
     id: "2",
     title: "수능 영단어",
     collection: "sat_words",
     progress: 37,
-    total: 50,
+    total: 200,
   },
   {
     id: "3",
     title: "토익 영단어",
     collection: "toeic_words",
     progress: 0,
-    total: 50,
+    total: 200,
   },
 ];
 

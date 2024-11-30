@@ -1,10 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const TestingResultScreen = ({ route }) => {
   const navigation = useNavigation();
-  const { finalScore, total, incorrectWords } = route.params;
+  const { title, level, finalScore, total, incorrectWords } = route.params;
 
   return (
     <View style={styles.container}>
@@ -21,8 +27,8 @@ const TestingResultScreen = ({ route }) => {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <View style={styles.listItem}>
-              <Text style={styles.wordText}>{item.word}</Text>
-              <Text style={styles.meaningText}>{item.meaning}</Text>
+              <Text style={styles.wordText}>{item.english}</Text>
+              <Text style={styles.meaningText}>{item.korean}</Text>
             </View>
           )}
         />
@@ -32,14 +38,21 @@ const TestingResultScreen = ({ route }) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() =>
+          onPress={() => {
+            // title, level, incorrectWords 객체 생성
+            const resultData = { title, level, incorrectWords };
+
+            // 생성된 객체를 출력하거나 사용할 수 있음
+            console.log("생성된 오답노트 데이터:", resultData);
+
+            // 화면 이동
             navigation.reset({
               index: 1,
               routes: [{ name: "Home" }, { name: "WordTestScreen" }],
-            })
-          }
+            });
+          }}
         >
-          <Text style={styles.buttonText}>틀린 단어 오답노트에 저장하기</Text>
+          <Text style={styles.buttonText}>오답노트에 저장하기</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
