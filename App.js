@@ -20,6 +20,7 @@ import WrongNoteScreen from "./src/screens/wrongNote/WrongNoteScreen";
 import WrongNoteLevelScreen from "./src/screens/wrongNote/WrongNoteLevelScreen";
 import WrongTestingScreen from "./src/screens/wrongNote/WrongTestingScreen";
 import WrongTestingResultScreen from "./src/screens/wrongNote/WrongTestingResultScreen";
+import "react-native-get-random-values";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

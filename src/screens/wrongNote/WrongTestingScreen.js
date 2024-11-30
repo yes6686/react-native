@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { doc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import { updateDoc, arrayRemove } from "firebase/firestore";
 
 const WrongTestingScreen = ({ route, navigation }) => {
-  const { title, words } = route.params;
+  const { title, words, level, docId, pid } = route.params;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -39,7 +38,8 @@ const WrongTestingScreen = ({ route, navigation }) => {
       currentIndex >= shuffledWords.length
     ) {
       navigation.navigate("WrongTestingResultScreen", {
-        title: title,
+        title,
+        level,
         finalScore: score,
         total: shuffledWords.length,
       });
@@ -65,15 +65,34 @@ const WrongTestingScreen = ({ route, navigation }) => {
 
     if (correct) {
       setScore((prev) => prev + 1);
-      // Firebase에서 맞춘 단어 삭제 (단일 단어 제거)
+
       try {
-        const docRef = doc(db, `wrong_notes_${title}`, currentWord.id);
+        if (!pid) {
+          throw new Error(
+            "Invalid document ID provided for Firebase document."
+          );
+        }
+
+        // Firestore 문서 참조 생성
+        const docRef = doc(db, `wrong_notes_${title}`, docId);
+        // Firestore 문서가 존재하는지 확인
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+          throw new Error(`Document with ID ${pid} does not exist.`);
+        }
+        // 삭제할 단어 데이터 준비
+        const wordToRemove = {
+          id: currentWord.id || null,
+          //pid: currentWord.pid || null,
+          english: currentWord.english || "",
+          korean: currentWord.korean || "",
+        };
+
+        // Firestore 문서 업데이트
         await updateDoc(docRef, {
-          incorrectWords: arrayRemove({
-            english: currentWord.english,
-            korean: currentWord.korean,
-          }),
+          incorrectWords: arrayRemove(wordToRemove),
         });
+        console.log(`Removed word from ${title} with document PID: ${pid}`);
       } catch (error) {
         console.error("Error removing correct word from DB:", error);
       }
@@ -104,17 +123,12 @@ const WrongTestingScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Progress */}
       <Text style={styles.progress}>
         {currentIndex + 1}/{shuffledWords.length}
       </Text>
-
-      {/* Current Word */}
       <View style={styles.quizBox}>
         <Text style={styles.word}>{currentWord.english}</Text>
       </View>
-
-      {/* Options */}
       <FlatList
         data={randomOptions}
         keyExtractor={(item, index) => index.toString()}
