@@ -15,6 +15,9 @@ import LoadingScreen from "./src/components/LoadingScreen";
 import Study from "./src/screens/wordstudy/Study";
 import RealStudyScreen from "./src/screens/wordstudy/RealStudyScreen";
 import { ThemeProvider, useTheme } from "./src/context/ThemeProvider";
+import TestLevelScreen from "./src/screens/wordtest/TestLevelScreen";
+import TestingScreen from "./src/screens/wordtest/TestingScreen";
+import TestingResultScreen from "./src/screens/wordtest/TestingResultScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,6 +34,10 @@ const HomeStack = () => (
     <Stack.Screen name="WrongNoteScreen" component={WrongNoteScreen} />
     <Stack.Screen name="WordStudyScreen" component={Study} />
     <Stack.Screen name="RealStudyScreen" component={RealStudyScreen} />
+
+    <Stack.Screen name="TestLevelScreen" component={TestLevelScreen} />
+    <Stack.Screen name="TestingScreen" component={TestingScreen} />
+    <Stack.Screen name="TestingResultScreen" component={TestingResultScreen} />
   </Stack.Navigator>
 );
 
