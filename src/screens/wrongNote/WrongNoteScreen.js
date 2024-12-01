@@ -1,5 +1,4 @@
-// src/components/WrongNoteScreen.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,17 +7,47 @@ import {
   FlatList,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
-const categories = [
-  { id: "1", title: "초등 영단어", progress: "11/200" },
-  { id: "2", title: "수능 영단어", progress: "37/200" },
-  { id: "3", title: "토익 영단어", progress: "2/200" },
-];
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../firebaseConfig";
 
 const WrongNoteScreen = ({ navigation }) => {
+  const [categories, setCategories] = useState([
+    { id: "elementary_words", title: "초등 영단어", progress: "0/200" },
+    { id: "sat_words", title: "수능 영단어", progress: "0/200" },
+    { id: "toeic_words", title: "토익 영단어", progress: "0/200" },
+  ]);
+
+  // Firestore에서 각 카테고리별 오답 데이터 가져오기
+  const fetchWrongNotes = async () => {
+    try {
+      const updatedCategories = await Promise.all(
+        categories.map(async (category) => {
+          const querySnapshot = await getDocs(
+            collection(db, `wrong_notes_${category.id}`)
+          );
+          const wordCount = querySnapshot.size; // 오답 개수
+          return {
+            ...category,
+            progress: `${wordCount}/200`, // progress 동적 업데이트
+          };
+        })
+      );
+      setCategories(updatedCategories); // 상태 업데이트
+    } catch (error) {
+      console.error("오답 노트 데이터 가져오기 오류:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchWrongNotes();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <LinearGradient colors={["#5A20BB", "#7F9DFF"]}>
+      <LinearGradient
+        colors={["#5A20BB", "#7F9DFF"]}
+        style={styles.gradientBackground}
+      >
         <Text style={styles.header}>121일 연속 학습 중 입니다!</Text>
         <FlatList
           data={categories}
@@ -27,7 +56,8 @@ const WrongNoteScreen = ({ navigation }) => {
               style={styles.card}
               onPress={() =>
                 navigation.navigate("WrongNoteLevelScreen", {
-                  category: item.title,
+                  category: item.id, // 카테고리 ID 전달
+                  title: item.title,
                 })
               }
             >
@@ -36,7 +66,7 @@ const WrongNoteScreen = ({ navigation }) => {
                 style={styles.cardGradientBackground}
               >
                 <Text style={styles.cardTitle}>{item.title}</Text>
-                <Text style={styles.progress}>학습률: {item.progress}</Text>
+                <Text style={styles.progress}>오답 수: {item.progress}</Text>
               </LinearGradient>
             </TouchableOpacity>
           )}

@@ -7,6 +7,29 @@ import {
   FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../../firebaseConfig"; // Firebase 설정 가져오기
+import { v4 as uuidv4 } from "uuid"; // 고유 ID 생성 라이브러리 (uuid)
+
+const saveWrongAnswersToDB = async (category, level, incorrectWords) => {
+  try {
+    const collectionRef = collection(db, `wrong_notes_${category}`);
+    const data = {
+      pid: uuidv4(), // 고유 ID 생성
+      level: level,
+      incorrectWords: incorrectWords.map((word) => ({
+        id: uuidv4(), // 각 단어에 고유 ID 추가
+        english: word.english,
+        korean: word.korean,
+      })),
+      timestamp: new Date(), // 저장 시간 기록
+    };
+    await addDoc(collectionRef, data);
+    console.log(`오답 단어가 저장되었습니다 (${category}):`, data);
+  } catch (error) {
+    console.error(`오답 저장 중 오류 발생 (${category}):`, error);
+  }
+};
 
 const TestingResultScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -39,13 +62,10 @@ const TestingResultScreen = ({ route }) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            // title, level, incorrectWords 객체 생성
-            const resultData = { title, level, incorrectWords };
+            // 오답 저장 호출
+            saveWrongAnswersToDB(title, level, incorrectWords);
 
             // 생성된 객체를 출력하거나 사용할 수 있음
-            console.log("생성된 오답노트 데이터:", resultData);
-
-            // 화면 이동
             navigation.reset({
               index: 1,
               routes: [{ name: "Home" }, { name: "WordTestScreen" }],
