@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -7,18 +7,22 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { auth } from "../../firebaseConfig"; // Firebase 설정 파일
+import { auth } from "../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { AuthContext } from "../context/AuthProvider";
+import { AuthProvider } from "../context/AuthProvider";
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const { setUser } = useContext(AuthContext); // AuthContext에서 setUser 함수 가져오기
 
   const handleLogin = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user); // 로그인 성공 시 사용자 정보 설정
       Alert.alert("로그인 성공", "환영합니다!");
+      navigation.navigate("Home"); // 로그인 후 홈 화면으로 이동
     } catch (error) {
       setErrorMessage("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
@@ -38,7 +42,7 @@ export default function LoginScreen({ navigation }) {
         value={email}
         onChangeText={(text) => {
           setEmail(text);
-          setErrorMessage(""); // 입력 시 에러 메시지 초기화
+          setErrorMessage("");
         }}
       />
       <TextInput
@@ -48,7 +52,7 @@ export default function LoginScreen({ navigation }) {
         value={password}
         onChangeText={(text) => {
           setPassword(text);
-          setErrorMessage(""); // 입력 시 에러 메시지 초기화
+          setErrorMessage("");
         }}
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>

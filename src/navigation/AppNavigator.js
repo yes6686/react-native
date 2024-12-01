@@ -13,13 +13,14 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function HomeStack() {
-  return (
+  return (  
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="TestScreen" component={Test} />
       <Stack.Screen name="WrongNoteScreen" component={WrongNote} />
       <Stack.Screen name="Study" component={Study} />
       <Stack.Screen name="RealStudyScreen" component={RealStudyScreen} />
+      
     </Stack.Navigator>
   );
 }
@@ -28,7 +29,7 @@ function AppNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="홈" component={HomeStack} />
+        {/* <Tab.Screen name="홈" component={HomeStack} /> */}
         {/* <Tab.Screen name="마이"  component={null}/> */}
         {/* <Tab.Screen name="설정"  component={null}/> */}
       </Tab.Navigator>

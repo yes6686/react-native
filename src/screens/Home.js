@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated, PanResponder, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AuthContext } from '../context/AuthProvider';
 
-export default function HomeScreen() {
+export default function Home() {
   const navigation = useNavigation();
   const translateY = new Animated.Value(0);
-  const userName = 'Danbi';
+  // const userName = 'Danbi';
+  const user= useContext(AuthContext);
+  console.log("User object:", user.user);
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
@@ -28,11 +31,14 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greeting}>{userName}님, 안녕하세요!</Text>
+      {/* <Text style={styles.greeting}>{userName}님, 안녕하세요!</Text> */}
+      <Text style={styles.greeting}>
+      {user.user.email.split('@')[0].slice(0, 3)}님, 안녕하세요!
+    </Text>
       <View style={styles.cardContainer}>
         <View style={styles.row}>
           <LinearGradient colors={['#FFFEE3', '#FFFD9E']} style={styles.gradientBackground}>
-            <TouchableOpacity style={styles.touchableArea} onPress={() => navigation.navigate('TestScreen')}>
+            <TouchableOpacity style={styles.touchableArea} onPress={() => navigation.navigate('WordTestScreen')}>
               <Text style={styles.cardTitle}>단어 시험</Text>
               <Image source={require('../../assets/images/exam.png')} style={styles.cardImage} />
             </TouchableOpacity>
@@ -46,7 +52,7 @@ export default function HomeScreen() {
         </View>
         <View style={styles.row}>
           <LinearGradient colors={['#FAA2FF', '#FDE3FF']} style={styles.gradientBackground}>
-            <TouchableOpacity style={[styles.touchableArea, styles.wideCard]} onPress={() => navigation.navigate('StudyScreen')}>
+          <TouchableOpacity style={[styles.touchableArea, styles.wideCard]} onPress={() => navigation.navigate('WordStudyScreen')}>
               <Text style={styles.cardTitle2}>단어 학습</Text>
               <Image source={require('../../assets/images/book.png')} style={styles.cardImageRightBottom} />
             </TouchableOpacity>

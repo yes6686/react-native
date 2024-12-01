@@ -36,7 +36,7 @@ const StudyLevelScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <LinearGradient colors={["#5A20BB", "#7F9DFF"]}>
-        <Text style={styles.header}>121일 연속 학습 중 입니다!</Text>
+        <Text style={styles.header}>✍🏻121일 연속 학습 중 입니다!</Text>
         <FlatList
           data={categories}
           renderItem={({ item }) => (
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
   card: {
     padding: 10,
     borderRadius: 15,
-    marginVertical: 10,
     height: 201,
   },
   cardGradientBackground: {
