@@ -26,6 +26,10 @@ import WrongTestingScreen from "./src/screens/wrongNote/WrongTestingScreen";
 import WrongTestingResultScreen from "./src/screens/wrongNote/WrongTestingResultScreen";
 import "react-native-get-random-values";
 
+// import { useFonts, Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
+// import AppLoading from "expo-app-loading";
+
+
 /** 로딩 화면 */
 const LoadingScreen = () => (
   <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

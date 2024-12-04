@@ -7,8 +7,10 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient"; 
 import { auth } from "../../firebaseConfig"; // Firebase 설정 파일
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Image } from "react-native";
 
 export default function SignUpScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -31,9 +33,12 @@ export default function SignUpScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Run the Word</Text>
-      <Text style={styles.subtitle}>회원가입</Text>
+    <LinearGradient
+      colors={["#6A0DAD", "#7F9DFF"]} 
+      style={styles.container}
+    >
+      <Image source={require("../../assets/logo.png")} style={styles.logo} />
+      <Text style={styles.subtitle}>✏가입하고 공부 시작하기🖋</Text>
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : null}
@@ -75,7 +80,7 @@ export default function SignUpScreen({ navigation }) {
           <Text style={styles.footerText}>로그인 페이지로 돌아가기</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -84,17 +89,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f8f8f8",
+  },
+  logo: {
+    width: 150, 
+    height: 150,
+    marginBottom: 70,
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#6A0DAD",
+    color: "#fff",
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 20,
-    marginBottom: 20,
+    color: "#fff",
+    marginBottom: 40,
+    fontWeight: "bold",
+    letterSpacing: 1, 
+    textShadowColor: "#000", 
+    textShadowOffset: { width: 1, height: 1 }, 
+    textShadowRadius: 2, 
   },
   input: {
     width: "80%",
@@ -105,15 +120,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
     backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   button: {
     width: "80%",
     height: 50,
-    backgroundColor: "#6A0DAD",
+    backgroundColor: "#4B6FFF",
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
   },
   buttonText: {
     color: "#fff",
@@ -125,7 +150,7 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 14,
-    color: "#6A0DAD",
+    color: "#fff",
   },
   errorMessage: {
     color: "red",
