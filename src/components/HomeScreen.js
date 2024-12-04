@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import {
   View,
   Text,
@@ -10,18 +10,22 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { AuthContext } from "../context/AuthProvider";
 
 export default function HomeScreen() {
+  
   const navigation = useNavigation();
-  const translateY = new Animated.Value(0);
-  const userName = "Danbi";
+  const translateY = new Animated.Value(102);
+  // const userName = "Danbi";
+  const { user } = useContext(AuthContext);
+  console.log("[DEBUG] user object:", user);
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: (e, gestureState) => {
       if (gestureState.dy < 0) {
-        translateY.setValue(200 + gestureState.dy);
-      } else if (gestureState.dy > 0 && translateY._value < 200) {
+        translateY.setValue(102 + gestureState.dy);
+      } else if (gestureState.dy > 0 && translateY._value < 102) {
         translateY.setValue(gestureState.dy);
       }
     },
@@ -42,7 +46,9 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greeting}>{userName}님, 안녕하세요!</Text>
+      <Text style={styles.greeting}>
+        {user?.displayName || user?.email || "사용자"}님, 안녕하세요!
+      </Text>
       <View style={styles.cardContainer}>
         <View style={styles.row}>
           <LinearGradient
@@ -210,4 +216,18 @@ const styles = StyleSheet.create({
     top: 20,
     alignSelf: "center",
   },
+  goalText:{
+    fontSize : 20,
+    fontWeight: "bold",
+    padding:7,
+  },
+  progressIcon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  progressText: {
+    fontSize: 16,
+    color: "#555",
+  },  
 });
