@@ -25,7 +25,7 @@ import WrongTestingScreen from "./src/screens/wrongNote/WrongTestingScreen";
 import WrongTestingResultScreen from "./src/screens/wrongNote/WrongTestingResultScreen";
 import "react-native-get-random-values";
 import { ThemeProvider } from "./src/context/ThemeProvider";
-
+import OnboardingScreen from "./src/components/OnboardingScreen";
 
 /** 로딩 화면 */
 const LoadingScreen = () => (
@@ -145,6 +145,11 @@ export default function App() {
       ) : (
         // 로그인되지 않았을 때 로그인/회원가입 스택 렌더링
         <Stack.Navigator>
+            <Stack.Screen 
+              name="Onboarding"
+              component={OnboardingScreen}
+              options={{headerShown: false}}
+            />
           <Stack.Screen
             name="Login"
             component={LoginScreen}
