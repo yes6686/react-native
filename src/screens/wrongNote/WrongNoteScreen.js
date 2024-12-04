@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
   card: {
     padding: 10,
     borderRadius: 15,
-    marginVertical: 10,
-    height: 180,
+    // marginVertical: 10,
+    height: 201,
   },
   cardGradientBackground: {
     flex: 1,

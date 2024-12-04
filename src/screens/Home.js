@@ -30,11 +30,13 @@ export default function Home() {
   });
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={['#5A20BB', '#000000']} style={styles.container}>
       {/* <Text style={styles.greeting}>{userName}님, 안녕하세요!</Text> */}
       <Text style={styles.greeting}>
-      {user.user.email.split('@')[0].slice(0, 3)}님, 안녕하세요!
-    </Text>
+  {user.user && user.user.email
+    ? `${user.user.email.split('@')[0].slice(0, 3)}님, 안녕하세요!`
+    : "안녕하세요!"}
+</Text>
       <View style={styles.cardContainer}>
         <View style={styles.row}>
           <LinearGradient colors={['#FFFEE3', '#FFFD9E']} style={styles.gradientBackground}>
@@ -71,12 +73,12 @@ export default function Home() {
           <Text style={styles.progressText}>20%</Text>
         </View>
       </Animated.View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', backgroundColor: '#6A0DAD', paddingTop: 40 },
+  container: { flex: 1, alignItems: 'center', backgroundColor: '#6A0DAD', paddingTop: 100 },
   greeting: { fontSize: 18, color: '#fff', marginBottom: 20, alignSelf: 'flex-start', marginLeft: 20 },
   cardContainer: { width: '90%', marginTop: 20 },
   row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },

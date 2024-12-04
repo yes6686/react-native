@@ -7,7 +7,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { auth } from "./firebaseConfig"; // Firebase auth 가져오기
 import LoginScreen from "./src/components/LoginScreen";
 import SignUpScreen from "./src/components/SignUpScreen";
-// import HomeScreen from "./src/components/HomeScreen";
 import MyPageScreen from "./src/components/MyPageScreen";
 import SettingsScreen from "./src/components/SettingsScreen";
 import { AuthProvider } from "./src/context/AuthProvider";
@@ -25,9 +24,7 @@ import WrongNoteLevelScreen from "./src/screens/wrongNote/WrongNoteLevelScreen";
 import WrongTestingScreen from "./src/screens/wrongNote/WrongTestingScreen";
 import WrongTestingResultScreen from "./src/screens/wrongNote/WrongTestingResultScreen";
 import "react-native-get-random-values";
-
-// import { useFonts, Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
-// import AppLoading from "expo-app-loading";
+import { ThemeProvider } from "./src/context/ThemeProvider";
 
 
 /** 로딩 화면 */
@@ -105,6 +102,7 @@ export default function App() {
 
   return (
     <AuthProvider>
+      <ThemeProvider>
     <NavigationContainer>
       {isLoggedIn ? (
         // 로그인 상태일 때 Tab Navigator 렌더링
@@ -165,6 +163,7 @@ export default function App() {
         </Stack.Navigator>
       )}
     </NavigationContainer>
+    </ThemeProvider>
     </AuthProvider>
   );
 }
