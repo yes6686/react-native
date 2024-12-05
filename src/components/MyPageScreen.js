@@ -1,4 +1,3 @@
-// MyPageScreen.js
 import React, { useState } from "react"; // useState 추가
 import {
   View,
@@ -10,12 +9,14 @@ import {
   ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+
 export default function MyPageScreen() {
   const [isRankingInfoVisible, setRankingInfoVisible] = useState(false);
 
   const toggleRankingInfo = () => {
     setRankingInfoVisible(!isRankingInfoVisible);
   };
+
   const dummyChartData = [
     { name: "yes490411", days: 1800 },
     { name: "danbi", days: 1750 },
@@ -29,7 +30,12 @@ export default function MyPageScreen() {
   ];
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={["#5A20BB", "#000000"]} style={styles.container}>
+      {/* 상단 배경 추가 */}
+      <LinearGradient
+        colors={["#5A20BB", "#5A20BB"]}
+        style={styles.topBackground}
+      />
       {/* 사용자 정보 */}
       <View style={styles.userInfoContainer}>
         <View style={styles.userInfo}>
@@ -81,6 +87,7 @@ export default function MyPageScreen() {
           ))}
         </ScrollView>
       </View>
+
       {/* 등급 안내 모달 */}
       <Modal
         visible={isRankingInfoVisible}
@@ -136,17 +143,16 @@ export default function MyPageScreen() {
           </View>
         </View>
       </Modal>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#6A0DAD",
-    paddingTop: 70,
     alignItems: "center",
   },
+
   userInfoContainer: {
     width: "90%",
     flexDirection: "row",
@@ -155,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     padding: 10,
     borderRadius: 10,
-    marginTop: 10,
+    marginTop: 70,
   },
   userInfo: {
     flexDirection: "row",
@@ -169,6 +175,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#5A20BB", // 글씨색
   },
   infoButton: {
     flexDirection: "row",
@@ -181,7 +188,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 14,
-    color: "#666",
+    color: "#5A20BB", // 글씨색
   },
   progressContainer: {
     width: "90%",
@@ -193,15 +200,16 @@ const styles = StyleSheet.create({
   rankProgressText: {
     fontSize: 16,
     fontWeight: "bold",
+    color: "#5A20BB", // 글씨색
   },
   daysLeftText: {
     fontSize: 14,
-    color: "#666",
+    color: "#5A20BB", // 글씨색
   },
   chartContainer: {
     width: "90%",
     height: "70%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRadius: 15,
     marginTop: 20,
     padding: 10,
@@ -216,7 +224,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 15,
     textAlign: "center",
-    color: "#6A0DAD",
+    color: "#000000", // 글씨색
   },
   chartList: {
     maxHeight: 500,
@@ -235,7 +243,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginRight: 15,
-    color: "#6A0DAD",
+    color: "#5A20BB", // 글씨색
   },
   chartDetails: {
     flex: 1,
@@ -291,17 +299,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderRadius: 8,
-  },
-  rankIcon: {
-    width: 40,
-    height: 40,
-    marginRight: 8,
-  },
-  rankName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-    flex: 1,
   },
   rankMiles: {
     fontSize: 14,
