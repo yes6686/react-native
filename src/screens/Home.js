@@ -47,9 +47,13 @@ export default function Home() {
     <LinearGradient colors={["#5A20BB", "#000000"]} style={styles.container}>
       {/* <Text style={styles.greeting}>{userName}님, 안녕하세요!</Text> */}
       <Text style={styles.greeting}>
-        {user.user && user.user.email
-          ? `${user.user.email.split("@")[0].slice(0, 3)}님, 안녕하세요!`
-          : "안녕하세요!"}
+        👋{" "}
+        <Text style={styles.greetingHighlight}>
+          {user.user && user.user.email
+            ? `${user.user.email.split("@")[0].slice(0, 3)}님`
+            : "안녕하세요"}
+        </Text>
+        , 오늘도 멋진 하루 보내세요!
       </Text>
       <View style={styles.cardContainer}>
         <View style={styles.row}>
