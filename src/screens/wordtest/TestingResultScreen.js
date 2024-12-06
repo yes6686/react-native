@@ -47,6 +47,8 @@ const TestingResultScreen = ({ route }) => {
         {finalScore}/{total}
       </Text>
 
+      {/* 틀린 단어 영역 제목 */}
+      <Text style={styles.incorrectWordsTitle}>틀린 단어</Text>
       {/* 틀린 단어 리스트 */}
       <View style={styles.listContainer}>
         <FlatList
@@ -157,6 +159,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FFFFFF",
     fontWeight: "bold",
+  },
+  incorrectWordsTitle: {
+    fontSize: 30,
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    marginBottom: 0,
+    textAlign: "center",
   },
 });
 
